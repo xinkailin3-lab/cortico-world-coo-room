@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coo 二次元 3D 两人套间</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="scene-root"></div>
+  <div id="hover-tooltip"></div>
+  <div id="pet-bubble"></div>
+  <div id="offscreen-figure-stage" class="offscreen-stage"></div>
+
+  <div class="hud">
+    <div class="top-bar">
+      <div class="panel brand-card">
+        <div id="sync-dot" class="brand-dot"></div>
+        <div>
+          <div class="brand-title">Coo 二次元 3D 两人套间</div>
+          <div id="sync-label" class="brand-sub">正在连接本地房间服务…</div>
+        </div>
+      </div>
+
+      <div class="panel controls-bar">
+        <button id="btn-view-god" class="btn active">展览户型视角（可旋转）</button>
+        <button id="btn-view-indoor" class="btn secondary">室内第一人称视角</button>
+        <button id="btn-reset-cam" class="btn">重置镜头</button>
+      </div>
+    </div>
+
+    <div class="panel left-dock">
+      <div class="card-head">
+        <span>套间导航 & 呼叫桌宠</span>
+        <span id="pet-room-badge" class="time-badge">客厅餐厅</span>
+      </div>
+      <div id="room-grid" class="room-grid"></div>
+
+      <div class="card-head" style="margin-top:4px;">
+        <span>与桌宠互动</span>
+      </div>
+      <div class="action-row">
+        <button class="mini-btn" data-act="pat">摸摸头</button>
+        <button class="mini-btn" data-act="poke">戳一下</button>
+        <button class="mini-btn" data-act="wave">打招呼</button>
+        <button class="mini-btn" data-act="jump">开心转圈</button>
+        <button class="mini-btn" data-act="sleep">打个盹</button>
+      </div>
+    </div>
+
+    <div class="panel time-card">
+      <div class="card-head">
+        <span>昼夜时间系统</span>
+        <span id="time-label" class="time-badge">16:30（午后）</span>
+      </div>
+      <div class="mode-row">
+        <button id="btn-time-system" class="btn active">同步系统时间</button>
+        <button id="btn-time-custom" class="btn">自定义时间</button>
+      </div>
+      <div class="slider-row">
+        <input id="time-slider" type="range" min="0" max="24" step="0.05" value="16.5" />
+      </div>
+      <div class="preset-row">
+        <button class="preset-btn" data-hour="7.5">清晨</button>
+        <button class="preset-btn" data-hour="12.5">正午</button>
+        <button class="preset-btn" data-hour="17.75">黄昏</button>
+        <button class="preset-btn" data-hour="22.5">深夜</button>
+      </div>
+    </div>
+
+    <div class="panel chat-dock">
+      <div id="event-feed" class="event-feed"></div>
+      <form id="chat-form" class="chat-form">
+        <input id="chat-input" type="text" placeholder="在 3D 房间里和 Coo 说点什么…" autocomplete="off" />
+        <button type="submit" class="btn active" style="padding:7px 14px;">发送</button>
+      </form>
+    </div>
+
+    <div id="hint-pill" class="panel hint-pill">
+      上帝视角：左键 360° 旋转、滚轮缩放、右键平移；点击桌宠互动，点击家具触发环境事件。切到室内视角可用 WASD 漫游或点击地面移动。
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
