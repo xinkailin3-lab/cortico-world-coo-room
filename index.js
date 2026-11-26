@@ -208,7 +208,7 @@ export class CooRoomWorld {
     const hour = this.getCurrentHour();
     return {
       worldId: this.id,
-      version: '1.1.0',
+      version: '1.1.1',
       url: this.server.url,
       rooms: ROOMS,
       doors: DOORS,
@@ -231,7 +231,7 @@ export class CooRoomWorld {
     this.host = host || null;
     const url = await this.server.start(Number(this.cfg.port) || 7890);
     this.petBridge.start(3000);
-    this.log('info', `[coo-room] 二次元 3D 公寓 v1.1.0 已启动：${url}`);
+    this.log('info', `[coo-room] 二次元 3D 公寓 v1.1.1 已启动：${url}`);
     return url;
   }
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1
+
+- 安全加固：`/ws` WebSocket 升级握手严格校验 `Origin`，仅放行与当前实际监听端口同源的 `http://127.0.0.1:<port>` 请求，缺失或不匹配一律返回 `403 Forbidden` 并关闭连接。
+- 安全加固：移除 `/pet-proxy/` 响应中的 `access-control-allow-origin: *` 头部，禁止外部站点跨域读取桌宠状态与形象包。
+
 ## 1.1.0
 
 - 完整适配 **Cortico World API v6** 规范：补齐全部工具 `tags` 与 `handler`、事件改为 `host.pushEvent`、WebUI 提供顶层 `invoke` / 状态灯 / 快捷入口与 `ENV_PROMPT.md` 环境提示词注入。
