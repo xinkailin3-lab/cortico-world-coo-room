@@ -1,6 +1,6 @@
 {
   "name": "cortico-world-coo-room",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Coopanion / Cortico 3D 二次元两人套间扩展（轻量程序化几何版）：动静分离 6 功能区 + 5 扇可开关实体门 + 人与桌宠真实移动与开门过程 + 家具墙体碰撞箱与防卡门保护。",
   "author": "xinkailin3-lab",
   "license": "MIT",

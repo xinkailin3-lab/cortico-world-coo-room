@@ -1,10 +1,10 @@
 /**
- * cortico-world-coo-room (v1.1.0) — Coopanion / Cortico 真实户型二次元 3D 两人套间 World 扩展
+ * cortico-world-coo-room (v1.1.2) — Coopanion / Cortico 真实户型二次元 3D 两人套间 World 扩展
  *
- * v1.1.0 升级要点：
- * - 动静分离真实 2 人户型：中央客餐厅与过道枢纽，5 个独立房间各配可开关实体门（含卫生间磨砂门）；
- * - 真实移动过程：桌宠与玩家均按 A* 路径逐步平滑移动，不再瞬移，桌宠遇到关着的门会停顿开门再通过；
- * - 完整碰撞箱 + 防卡门安全区：前端实时同步壁障与门状态，确保绝不卡在门里。
+ * v1.1.2 升级要点：
+ * - 修复 /pet-proxy/ 反代中文路径（如「额外动作拓展」）触发 ERR_UNESCAPED_CHARACTERS 导致 Coopanion Core 闪退的问题；
+ * - 全面支持 SVG <image> 形象包（深深与额外动作拓展，含 WebCodecs ImageDecoder 动图播放）、纯矢量 SVG（内置 Coo）与 <foreignObject> WebGL 画布形象包（大肥鱼）；
+ * - 完善跨房间走动/朝向/动作同步、HTTP/WebSocket 容错及 7797–7806 全端口探测。
  */
 
 import path from 'node:path';
@@ -208,7 +208,7 @@ export class CooRoomWorld {
     const hour = this.getCurrentHour();
     return {
       worldId: this.id,
-      version: '1.1.1',
+      version: '1.1.2',
       url: this.server.url,
       rooms: ROOMS,
       doors: DOORS,
@@ -231,7 +231,7 @@ export class CooRoomWorld {
     this.host = host || null;
     const url = await this.server.start(Number(this.cfg.port) || 7890);
     this.petBridge.start(3000);
-    this.log('info', `[coo-room] 二次元 3D 公寓 v1.1.1 已启动：${url}`);
+    this.log('info', `[coo-room] 二次元 3D 公寓 v1.1.2 已启动：${url}`);
     return url;
   }
 

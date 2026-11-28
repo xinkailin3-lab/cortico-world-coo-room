@@ -135,6 +135,15 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.08;
 rootEl.appendChild(renderer.domElement);
 
+let contextLost = false;
+renderer.domElement.addEventListener('webglcontextlost', (ev) => {
+  ev.preventDefault();
+  contextLost = true;
+});
+renderer.domElement.addEventListener('webglcontextrestored', () => {
+  contextLost = false;
+});
+
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.07;
@@ -940,7 +949,7 @@ function tryToggleDoorOrObject(id, actor = 'user') {
 function connectWs() {
   const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
   ws = new WebSocket(`${proto}//${location.host}/ws`);
-  ws.onopen = () => addFeed('已连接到本地 3D 公寓服务（v1.1.0 真实户型）');
+  ws.onopen = () => addFeed('已连接到本地 3D 公寓服务（真实户型）');
   ws.onclose = () => setTimeout(connectWs, 2500);
 
   ws.onmessage = async (ev) => {
@@ -1359,7 +1368,7 @@ function stepPetMovement(dt) {
     const step = Math.min(dist, speed * dt);
     petGroup.position.x += (dx / dist) * step;
     petGroup.position.z += (dz / dist) * step;
-    figureRenderer.setMovement(true, dx >= 0 ? 1 : -1);
+    figureRenderer.setMovement(true, dx >= 0 ? 1 : -1, petRun);
     if (now - lastPetSyncAt > 280) {
       lastPetSyncAt = now;
       renderRoomButtons(detectLocalRoom(petGroup.position.x, petGroup.position.z));
@@ -1461,8 +1470,12 @@ function animate() {
 
   stepPetMovement(dt);
 
-  figureRenderer.step(dt);
-  petTexture.needsUpdate = true;
+  try {
+    figureRenderer.step(dt);
+    petTexture.needsUpdate = true;
+  } catch (err) {
+    console.warn('[coo-room] 角色渲染步进异常:', err?.message || err);
+  }
   petPlane.rotation.y = Math.atan2(
     camera.position.x - petGroup.position.x,
     camera.position.z - petGroup.position.z
@@ -1477,7 +1490,18 @@ function animate() {
 
   updateLightingByHour(getEffectiveHour());
   updateBubbleScreenPos();
-  renderer.render(scene, camera);
+  if (!contextLost) {
+    renderer.render(scene, camera);
+  }
 }
+
+window.addEventListener('pagehide', () => {
+  figureRenderer.disposeNative();
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    try {
+      ws.close();
+    } catch {}
+  }
+});
 
 animate();
